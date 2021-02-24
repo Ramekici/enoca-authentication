@@ -1,0 +1,90 @@
+.auth-container{
+    width: 80%;
+    margin: 3rem auto;
+}
+
+.auth-card{
+    border: 1px solid rgb(243, 242, 242);
+    width: 40%;
+    height: 100vh;
+    margin: auto;
+    padding: 2rem;
+    box-sizing: border-box;
+    box-shadow: 0 .05rem .1rem  rgb(150, 149, 149);
+    border-radius: .5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-tabs{
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-header-button.active{
+    background-color: rgb(250, 250, 250);  
+}
+
+.auth-header-button{
+    width: 50%;
+    height: 2.4rem;
+    border: none;
+    cursor: pointer;
+    padding: .5rem;
+    background-color: rgb(209, 209, 209);
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    transition: background-color .5s ease;
+}
+
+.auth-header-button:focus, .auth_submit_button:focus{
+    outline: none;
+}
+
+
+.auth-content{
+    box-sizing: border-box;
+}
+
+.auth-content-body{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    
+}
+
+.auth-ad-soyad{
+    display: flex;
+    justify-content: space-between;
+}
+
+.auth_submit_button{
+    width: 100%;
+    height: 2.4rem;
+    margin-top: .5rem;
+    margin-bottom: 1rem;
+    padding: .125rem;
+    background-color: #F06543;
+    color: white;
+    border: none;
+    border-radius: 0.125rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all .4s ease-in;
+}
+
+.auth_submit_button:disabled{
+    cursor: not-allowed;
+    background-color: gray;
+}
+
+
+
+
+
+
+

@@ -1,0 +1,53 @@
+.input-group{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.input-invalid{
+    border: 1px solid red !important;
+}
+
+.input-group input{
+    height: 2.4rem;
+    padding: .125rem .5rem;
+    border-radius: 0.1rem;
+    border: 1px solid rgb(189, 189, 189);
+    background-color: rgb(216, 216, 216);
+    
+}
+
+.input-invalid-feedback{
+    align-self: flex-start;
+    color: red;
+    font-size: .725rem;
+    margin-bottom: 0.5rem;
+}
+
+
+.eye-button{
+    position: absolute;
+    top:3px;
+    right: 5px;
+    height: 2.4rem;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all .4s ease-in;
+}
+
+.eye-button:focus{
+    outline: none;
+}
+
+
+.checkbox-label{
+    width: 90%;
+    padding-left: 1rem;
+    font-size: .775rem;
+    text-align: justify;
+
+}
+
