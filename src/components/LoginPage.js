@@ -33,8 +33,6 @@ const formReducer = (state, action) => {
 const LoginPage = () => {
 
   const [typePos, setTypePos] = useState(true);
-
-
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputVal: {
       email: '',
@@ -70,7 +68,8 @@ const LoginPage = () => {
       <Input
         name="email"
         type="email"
-        placeHolder="E-posta adresi"
+        email 
+        placeholder="E-posta adresi"
         onChangeInput={onChangeInputHandler}
         required
         initvalue={formState.inputVal.email}
@@ -78,14 +77,13 @@ const LoginPage = () => {
       <Input
         name="password"
         type={typePos ? 'password' : 'text'}
-        placeHolder="Şifre"
+        placeholder="Şifre"
         minLength={6}
         onChangeInput={onChangeInputHandler}
         required
         initvalue={formState.inputVal.email}
         onChangePasswordType={() => setTypePos(prev => !prev)}
       />
-
       <button className="auth_submit_button"
         type="submit"
         disabled={!formState.formIsValid}> Giriş Yap </button>

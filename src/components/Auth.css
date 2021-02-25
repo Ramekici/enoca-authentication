@@ -16,6 +16,27 @@
     flex-direction: column;
 }
 
+@media screen and (max-width: 1200px){
+    .auth-card{
+        width: 50%;
+        padding: 1rem;
+    }
+}
+
+@media screen and (max-width: 960px){
+    .auth-card{
+        width: 75%;
+        padding: .75rem;
+    }
+}
+
+@media screen and (max-width: 480px){
+    .auth-card{
+        width: 100%;
+        padding: .5rem;
+    }
+}
+
 .auth-tabs{
     margin-top: 2rem;
     margin-bottom: 1.5rem;
@@ -38,6 +59,7 @@
     background-color: rgb(209, 209, 209);
     color: rgb(0, 0, 0);
     font-weight: bold;
+    box-shadow: 0 -.01rem .1rem rgb(160, 158, 158);
     transition: background-color .5s ease;
 }
 
@@ -60,6 +82,12 @@
 .auth-ad-soyad{
     display: flex;
     justify-content: space-between;
+    overflow: hidden;
+    width: 100%;
+}
+
+.auth-ad{
+    width: 48%;
 }
 
 .auth_submit_button{

@@ -63,7 +63,7 @@ const RegisterPage = () => {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    
+
   }
 
   const onCheckbox = (event) => {
@@ -74,39 +74,40 @@ const RegisterPage = () => {
   return (
 
     <form className="auth-content-body" onSubmit={onSubmitHandler}>
-      <div style={{margin:"1rem 0"}}>
+      <div style={{ margin: "1rem 0" }}>
         E-posta adresi ile üye ol.
       </div>
-      <div className="">
-        <div className="auth-ad-soyad">
-        <Input
-          name="name"
-          type="text"
-          style={{ marginRight:".5rem"}}
-          placeHolder="Adı"
-          onChangeInput={onChangeInputHandler}
-          required
-          initvalue={formState.inputVal.name}
-          minLength={3}
-          maxLength={24}
-        />
-        <Input
-          name="surName"
-          type="text"
-          placeHolder="Soyadı"
-          style={{marginLeft:".5rem"}}
-          onChangeInput={onChangeInputHandler}
-          required
-          initvalue={formState.inputVal.surName}
-          minLength={3}
-          maxLength={24}
-        />
-      </div>
+      <div className="auth-ad-soyad">
+        <div className="auth-ad">
+          <Input
+            name="name"
+            type="text"
+            placeholder="Adı"
+            onChangeInput={onChangeInputHandler}
+            required
+            initvalue={formState.inputVal.name}
+            minLength={3}
+            maxLength={24}
+          />
+        </div>
+        <div className="auth-ad">
+          <Input
+            name="surName"
+            type="text"
+            placeholder="Soyadı"
+            onChangeInput={onChangeInputHandler}
+            required
+            initvalue={formState.inputVal.surName}
+            minLength={3}
+            maxLength={24}
+          />
+        </div>
       </div>
       <Input
         name="email"
         type="email"
-        placeHolder="E-posta adresi"
+        email
+        placeholder="E-posta adresi"
         onChangeInput={onChangeInputHandler}
         required
         initvalue={formState.inputVal.email}
@@ -114,7 +115,7 @@ const RegisterPage = () => {
       <Input
         name="password"
         type={typePos ? 'password' : 'text'}
-        placeHolder="Şifre"
+        placeholder="Şifre"
         minLength={6}
         onChangeInput={onChangeInputHandler}
         required
@@ -124,21 +125,22 @@ const RegisterPage = () => {
       <Input
         name="rePassword"
         type={typePosRe ? 'password' : 'text'}
-        placeHolder="Şifre Onayı"
+        placeholder="Şifre Onayı"
         minLength={6}
         onChangeInput={onChangeInputHandler}
         required
         initvalue={formState.inputVal.rePassword}
+        passwordValue = {formState.inputVal.password}
         onChangePasswordType={() => setTypePosRe(prev => !prev)}
       />
-      <div>
-        <input type="checkbox" onChange={onCheckbox} checked={checkPos}/>
+      <div className="checkbox-input">
+        <input type="checkbox" onChange={onCheckbox} checked={checkPos} />
         <label htmlFor="checkbox" className="checkbox-label" >
           Önemli kampanyalardan haberdar olmak için <span style={{ fontWeight: "bolder" }}> Rıza Metni </span> kapsamında elektronik ileti almak istiyorum.
        </label>
       </div>
       <button className="auth_submit_button"
-        disabled={!formState.formIsValid && !checkPos}
+        disabled={!formState.formIsValid || !checkPos}
         type="submit">
         Üye Ol
       </button>

@@ -43,6 +43,7 @@ const Input = (props) => {
     }, [onChangeInput, inputState, name])
 
     const onChangeHandler = (event) => {
+
         const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
         let isValid = true;
         if (props.required && event.target.value.trim().length === 0) {
@@ -67,10 +68,10 @@ const Input = (props) => {
             isValid = false;
             setError(`Maximum ${props.maxLength} karakter girilmelidir.`);
         }
-        // if(props.name === "rePassword" && event.target.value !== ){
-        //     isValid = false;
-        //     setError(`Maximum ${props.maxLength} karakter girilmelidir.`);
-        // }
+        if(props.name === "rePassword" && event.target.value !== props.passwordValue){
+             isValid = false;
+             setError(`Şifreler birbiri ile uyumlu değildir.`);
+        }
 
         dispatchInputState({
             type: INPUT_CHANGE,
@@ -84,7 +85,6 @@ const Input = (props) => {
             type: INPUT_FOCUS
         })
     }
-
 
     useEffect(() => {
         if (completed) {
@@ -100,14 +100,14 @@ const Input = (props) => {
     return (
         <div className="input-group" >
             <input
-                className={!inputState.isValid && inputState.touched && "input-invalid"}
+                className={(!inputState.isValid && inputState.touched) ? "input-invalid" :""}
                 {...props}
                 value={inputState.value}
                 onChange={onChangeHandler}
                 onFocus={lostFocusHandler} />
             {(props.name === 'password' || props.name === 'rePassword') &&
                 <Eye
-                    onChangePasswordType={props.onChangePasswordType}
+                    changePasswordType={props.onChangePasswordType}
                     show={props.type === 'password' ? true : false}
                 />}
             {!inputState.isValid && inputState.touched &&

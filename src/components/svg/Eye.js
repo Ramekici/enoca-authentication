@@ -2,7 +2,7 @@ import React from 'react'
 
 const Eye = (props) => {
     return (
-        <button className="eye-button" onClick={props.onChangePasswordType}>
+        <button className="eye-button" onClick={props.changePasswordType}>
             {props.show ? 
             <svg 
             width="14"
