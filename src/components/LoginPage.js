@@ -4,7 +4,7 @@ import Input from './common/Input';
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
 
-const formReducer = (state, action) => {
+const formReducer = (state, action, initvalue) => {
 
   if (action.type === FORM_INPUT_UPDATE) {
     const updatedValues = {
@@ -51,14 +51,27 @@ const LoginPage = () => {
       value: inputValue,
       isValid: inputValidty,
       input: inputIdentifier
-    })
+    });
   }, [dispatchFormState])
 
 
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    //const data = {email: formState.inputVal.email, password: formState.inputVal.password}
+    const data = {email: formState.inputVal.email, password: formState.inputVal.password};
+    console.log(data);
+    dispatchFormState({
+      type: FORM_INPUT_UPDATE,
+      value: '',
+      isValid: false,
+      input: 'email'
+    });
+    return dispatchFormState({
+      type: FORM_INPUT_UPDATE,
+      value: '',
+      isValid: false,
+      input: 'password'
+    });
   };
 
 
@@ -68,11 +81,12 @@ const LoginPage = () => {
       <Input
         name="email"
         type="email"
-        email 
+        email="true" 
         placeholder="E-posta adresi"
         onChangeInput={onChangeInputHandler}
         required
         initvalue={formState.inputVal.email}
+
       />
       <Input
         name="password"
@@ -83,6 +97,7 @@ const LoginPage = () => {
         required
         initvalue={formState.inputVal.email}
         onChangePasswordType={() => setTypePos(prev => !prev)}
+        
       />
       <button className="auth_submit_button"
         type="submit"
@@ -93,4 +108,6 @@ const LoginPage = () => {
     </form>
   )
 }
+
+
 export default LoginPage;

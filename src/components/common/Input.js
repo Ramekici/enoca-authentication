@@ -45,14 +45,27 @@ const Input = (props) => {
     const onChangeHandler = (event) => {
 
         const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        const nameRegex = /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{3,24}$/;
         let isValid = true;
+
         if (props.required && event.target.value.trim().length === 0) {
             isValid = false;
-            setError("Alan boş bırakılmamalıdır.");
+            setError("Bu alan boş bırakılamaz.");
         }
         if (props.email && !emailRegex.test(event.target.value.toLowerCase())) {
             isValid = false;
             setError("E-posta adresini doğru giriniz.");
+        }
+        if ((props.name === "password" || props.name === "rePassword") && 
+        !passwordRegex.test(event.target.value)) {
+            isValid = false;
+            setError("Şifre, minimum sekiz karakter ve en az bir harf ile rakam girmelisiniz");
+        }
+        if ((props.name === "name" || props.name === "surName") && 
+        !nameRegex.test(event.target.value.trim())) {
+            isValid = false;
+            setError("Alan minimum 3 karakter ve özel karakter ile rakam içermemelidir.");
         }
         if (props.min !== null && +event.target.value < props.min) {
             isValid = false;
@@ -60,15 +73,15 @@ const Input = (props) => {
         if (props.max !== null && +event.target.value > props.max) {
             isValid = false;
         }
-        if (props.minLength !== null && event.target.value.length < props.minLength) {
-            isValid = false;
-            setError(`Minimum ${props.minLength} karakter girilmelidir.`);
-        }
-        if (props.maxLength !== null && event.target.value.length > props.maxLength) {
-            isValid = false;
-            setError(`Maximum ${props.maxLength} karakter girilmelidir.`);
-        }
-        if(props.name === "rePassword" && event.target.value !== props.passwordValue){
+        // if (props.minLength !== null && event.target.value.length < props.minLength) {
+        //     isValid = false;
+        //     setError(`Minimum ${props.minLength} karakter girilmelidir.`);
+        // }
+        // if (props.maxLength !== null && event.target.value.length > props.maxLength) {
+        //     isValid = false;
+        //     setError(`Maximum ${props.maxLength} karakter girilmelidir.`);
+        // }
+        if(props.name === "rePassword" && event.target.value !== props.passwordvalue){
              isValid = false;
              setError(`Şifreler birbiri ile uyumlu değildir.`);
         }
@@ -85,16 +98,6 @@ const Input = (props) => {
             type: INPUT_FOCUS
         })
     }
-
-    useEffect(() => {
-        if (completed) {
-            dispatchInputState({
-                type: INPUT_CHANGE,
-                value: '',
-                isValid: false
-            })
-        }
-    }, [completed]);
 
 
     return (

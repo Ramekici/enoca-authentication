@@ -63,11 +63,17 @@ const RegisterPage = () => {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-
+    const data = {
+      name: formState.inputVal.name,
+      surName: formState.inputVal.surName,
+      email: formState.inputVal.email, 
+      password: formState.inputVal.password};
+      console.log(data);
   }
 
   const onCheckbox = (event) => {
     setCheckPos(event.target.checked);
+ 
   }
 
 
@@ -106,7 +112,7 @@ const RegisterPage = () => {
       <Input
         name="email"
         type="email"
-        email
+        email="true"
         placeholder="E-posta adresi"
         onChangeInput={onChangeInputHandler}
         required
@@ -116,7 +122,6 @@ const RegisterPage = () => {
         name="password"
         type={typePos ? 'password' : 'text'}
         placeholder="Şifre"
-        minLength={6}
         onChangeInput={onChangeInputHandler}
         required
         initvalue={formState.inputVal.password}
@@ -126,11 +131,10 @@ const RegisterPage = () => {
         name="rePassword"
         type={typePosRe ? 'password' : 'text'}
         placeholder="Şifre Onayı"
-        minLength={6}
         onChangeInput={onChangeInputHandler}
         required
         initvalue={formState.inputVal.rePassword}
-        passwordValue = {formState.inputVal.password}
+        passwordvalue = {formState.inputVal.password}
         onChangePasswordType={() => setTypePosRe(prev => !prev)}
       />
       <div className="checkbox-input">
