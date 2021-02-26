@@ -3,6 +3,7 @@ import Input from './common/Input';
 
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
+const FORM_INPUT_RESET = 'FORM_INPUT_RESET';
 
 const formReducer = (state, action) => {
   if (action.type === FORM_INPUT_UPDATE) {
@@ -24,6 +25,25 @@ const formReducer = (state, action) => {
       formIsValid: updatedFormIsValid
     }
   }
+  else if (action.type === FORM_INPUT_RESET) {
+    return {
+      inputVal: {
+        name: '',
+        surName: '',
+        email: '',
+        password: '',
+        rePassword: ''
+      },
+      inputValidities: {
+        name: false,
+        surName: false,
+        email: false,
+        password: false,
+        rePassword: false
+      },
+      formIsValid: false
+    }
+  }
   return state;
 }
 
@@ -33,6 +53,7 @@ const RegisterPage = () => {
   const [typePos, setTypePos] = useState(true);
   const [typePosRe, setTypePosRe] = useState(true);
   const [checkPos, setCheckPos] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputVal: {
       name: '',
@@ -66,14 +87,23 @@ const RegisterPage = () => {
     const data = {
       name: formState.inputVal.name,
       surName: formState.inputVal.surName,
-      email: formState.inputVal.email, 
-      password: formState.inputVal.password};
-      console.log(data);
+      email: formState.inputVal.email,
+      password: formState.inputVal.password
+    };
+    setIsCompleted(true);
+    setCheckPos(false);
+    console.log(data);
+    setTimeout(()=>{
+      setIsCompleted(false)
+    },2000);
+    return dispatchFormState({
+      type: FORM_INPUT_RESET
+    });
   }
 
   const onCheckbox = (event) => {
     setCheckPos(event.target.checked);
- 
+
   }
 
 
@@ -92,8 +122,7 @@ const RegisterPage = () => {
             onChangeInput={onChangeInputHandler}
             required
             initvalue={formState.inputVal.name}
-            minLength={3}
-            maxLength={24}
+            completed={isCompleted.toString()}
           />
         </div>
         <div className="auth-ad">
@@ -104,8 +133,7 @@ const RegisterPage = () => {
             onChangeInput={onChangeInputHandler}
             required
             initvalue={formState.inputVal.surName}
-            minLength={3}
-            maxLength={24}
+            completed={isCompleted.toString()}
           />
         </div>
       </div>
@@ -117,6 +145,7 @@ const RegisterPage = () => {
         onChangeInput={onChangeInputHandler}
         required
         initvalue={formState.inputVal.email}
+        completed={isCompleted.toString()}
       />
       <Input
         name="password"
@@ -126,6 +155,7 @@ const RegisterPage = () => {
         required
         initvalue={formState.inputVal.password}
         onChangePasswordType={() => setTypePos(prev => !prev)}
+        completed={isCompleted.toString()}
       />
       <Input
         name="rePassword"
@@ -134,8 +164,9 @@ const RegisterPage = () => {
         onChangeInput={onChangeInputHandler}
         required
         initvalue={formState.inputVal.rePassword}
-        passwordvalue = {formState.inputVal.password}
+        passwordvalue={formState.inputVal.password}
         onChangePasswordType={() => setTypePosRe(prev => !prev)}
+        completed={isCompleted.toString()}
       />
       <div className="checkbox-input">
         <input type="checkbox" onChange={onCheckbox} checked={checkPos} />

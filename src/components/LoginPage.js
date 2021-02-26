@@ -2,9 +2,12 @@ import React, { useReducer, useCallback, useState } from 'react';
 import Input from './common/Input';
 
 
-const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
 
-const formReducer = (state, action, initvalue) => {
+
+const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
+const FORM_INPUT_RESET = 'FORM_INPUT_RESET';
+
+const formReducer = (state, action) => {
 
   if (action.type === FORM_INPUT_UPDATE) {
     const updatedValues = {
@@ -25,6 +28,13 @@ const formReducer = (state, action, initvalue) => {
       formIsValid: updatedFormIsValid
     }
   }
+  else if(action.type === FORM_INPUT_RESET) {
+    return {
+      inputVal: {email: "", password:""},
+      inputValidities: {email: false, password: false},
+      formIsValid: false
+    }
+  }
   return state;
 }
 
@@ -33,6 +43,7 @@ const formReducer = (state, action, initvalue) => {
 const LoginPage = () => {
 
   const [typePos, setTypePos] = useState(true);
+  const [isCompleted, setIsCompleted] = useState(false);
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputVal: {
       email: '',
@@ -59,18 +70,13 @@ const LoginPage = () => {
   const onSubmitHandler = (event) => {
     event.preventDefault();
     const data = {email: formState.inputVal.email, password: formState.inputVal.password};
+    setIsCompleted(true);
     console.log(data);
-    dispatchFormState({
-      type: FORM_INPUT_UPDATE,
-      value: '',
-      isValid: false,
-      input: 'email'
-    });
+    setTimeout(()=>{
+      setIsCompleted(false)
+    },2000);
     return dispatchFormState({
-      type: FORM_INPUT_UPDATE,
-      value: '',
-      isValid: false,
-      input: 'password'
+      type: FORM_INPUT_RESET
     });
   };
 
@@ -86,6 +92,7 @@ const LoginPage = () => {
         onChangeInput={onChangeInputHandler}
         required
         initvalue={formState.inputVal.email}
+        completed={isCompleted.toString()}
 
       />
       <Input
@@ -97,7 +104,7 @@ const LoginPage = () => {
         required
         initvalue={formState.inputVal.email}
         onChangePasswordType={() => setTypePos(prev => !prev)}
-        
+        completed={isCompleted.toString()}
       />
       <button className="auth_submit_button"
         type="submit"

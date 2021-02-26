@@ -4,7 +4,7 @@ import Eye from '../svg/Eye';
 
 const INPUT_CHANGE = 'INPUT_CHANGE';
 const INPUT_FOCUS = 'INPUT_FOCUS';
-
+const INPUT_RESET = 'INPUT_RESET';
 
 const inputReducer = (state, action) => {
     switch (action.type) {
@@ -19,6 +19,12 @@ const inputReducer = (state, action) => {
                 ...state,
                 touched: true
             }
+        case INPUT_RESET:
+                return {
+                    value:'',
+                    isValid:  false,
+                    touched: false,
+                }
         default:
             return state;
     }
@@ -35,37 +41,46 @@ const Input = (props) => {
     const [error, setError] = useState('');
 
     const { onChangeInput, name, completed } = props;
+    const {touched} = inputState;
+
+    useEffect(()=>{
+        onChangeInput(name, inputState.value, inputState.isValid);
+    },[name, inputState.value, inputState.isValid]);
 
     useEffect(() => {
-        if (inputState.touched) {
-            onChangeInput(name, inputState.value, inputState.isValid)
+        if (touched && props.initvalue.length === 0) {
+            setError("Bu alan boş bırakılamaz.");
         }
-    }, [onChangeInput, inputState, name])
+    }, [touched, props.initvalue.length ]);
+
+    useEffect(()=>{
+        dispatchInputState({
+            type: INPUT_RESET
+        })
+    },[completed])
 
     const onChangeHandler = (event) => {
 
         const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-        const nameRegex = /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{3,24}$/;
+        const nameRegex = /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,24}$/;
         let isValid = true;
 
-        if (props.required && event.target.value.trim().length === 0) {
-            isValid = false;
-            setError("Bu alan boş bırakılamaz.");
-        }
+        
         if (props.email && !emailRegex.test(event.target.value.toLowerCase())) {
             isValid = false;
             setError("E-posta adresini doğru giriniz.");
         }
+       
         if ((props.name === "password" || props.name === "rePassword") && 
         !passwordRegex.test(event.target.value)) {
             isValid = false;
-            setError("Şifre, minimum sekiz karakter ve en az bir harf ile rakam girmelisiniz");
+            setError("Şifre, minimum sekiz karakter ve en az bir harf ile rakam içermelidir");
         }
         if ((props.name === "name" || props.name === "surName") && 
         !nameRegex.test(event.target.value.trim())) {
             isValid = false;
-            setError("Alan minimum 3 karakter ve özel karakter ile rakam içermemelidir.");
+            setError("Alan minimum üç karakter ve özel karakter ile rakam içermemelidir.");
         }
         if (props.min !== null && +event.target.value < props.min) {
             isValid = false;
@@ -73,17 +88,13 @@ const Input = (props) => {
         if (props.max !== null && +event.target.value > props.max) {
             isValid = false;
         }
-        // if (props.minLength !== null && event.target.value.length < props.minLength) {
-        //     isValid = false;
-        //     setError(`Minimum ${props.minLength} karakter girilmelidir.`);
-        // }
-        // if (props.maxLength !== null && event.target.value.length > props.maxLength) {
-        //     isValid = false;
-        //     setError(`Maximum ${props.maxLength} karakter girilmelidir.`);
-        // }
         if(props.name === "rePassword" && event.target.value !== props.passwordvalue){
              isValid = false;
-             setError(`Şifreler birbiri ile uyumlu değildir.`);
+             setError(`Şifreler birbiri ile uyuşmamaktadır.`);
+        }
+        if (props.required && event.target.value.trim().length === 0) {
+            isValid = false;
+            setError("Bu alan boş bırakılamaz.");
         }
 
         dispatchInputState({
